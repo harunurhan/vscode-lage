@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as path from "path";
 
-import { LageTaskProvider } from "./test/LageTaskProvider";
+import { LageTaskProvider } from "./LageTaskProvider";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
