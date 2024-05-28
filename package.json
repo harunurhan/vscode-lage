@@ -2,7 +2,7 @@
   "name": "vscode-lage",
   "displayName": "vscode-lage",
   "description": "A vscode extension that understands lage configs and provide utilities such as vscode tasks.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.89.0"
   },
@@ -24,10 +24,11 @@
       "properties": {
         "lage.configFilePath": {
           "type": [
-            "string"
+            "string",
+            "null"
           ],
-          "default": "${workspaceFolder}/lage.config.js",
-          "description": "Specifies the path to lage config file"
+          "default": null,
+          "description": "Specifies the path to lage config file, default is ${workspaceFolder}/lage.config.js"
         },
         "lage.useWorkspaceLageBinary": {
           "type": [

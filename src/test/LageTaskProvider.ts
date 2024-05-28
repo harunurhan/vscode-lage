@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { unique } from "./utils";
 
 export class LageTaskProvider implements vscode.TaskProvider {
   private lageTasksPromise: Promise<vscode.Task[]> | undefined;
@@ -37,18 +38,23 @@ export class LageTaskProvider implements vscode.TaskProvider {
   }
 
   private async getLageTasks(): Promise<vscode.Task[]> {
-    const lageConfig = await import(this.lageConfigFilePath);
-    const lageTargetNames = Object.keys(lageConfig.pipeline)
-      .map((pipelineKey) => {
-        const [packageOrTargetName, targetNameOrUndefined] = pipelineKey.split("#");
-        
+    const lageConfig = (await import(this.lageConfigFilePath)).default;
+    console.log(this.lageConfigFilePath);
+    console.log(lageConfig);
+    const lageTargetNames = unique(
+      Object.keys(lageConfig.pipeline).map((pipelineKey) => {
+        const [packageOrTargetName, targetNameOrUndefined] =
+          pipelineKey.split("#");
+
         return targetNameOrUndefined ?? packageOrTargetName;
-      });
+      })
+    );
+
     // TODO: better inference for `npmClient`, e.g. look for files such as `yarn.lock` to determine.
     const npmClient = lageConfig.npmClient || "npm";
     // TODO: infer binary path instead of using `lage` package.json script, e.g. by using `yarn bin lage`.
     const lageTargetRunner = this.useWorkspaceLageBinary
-      ? `${npmClient} run`
+      ? `${npmClient} run lage`
       : `lage`;
     const additionalLageArgsString = this.additionalLageArgs.join(" ");
 
