@@ -1,0 +1,77 @@
+{
+  "name": "vscode-lage",
+  "displayName": "vscode-lage",
+  "description": "A vscode extension that understands lage configs and provide utilities such as vscode tasks.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.89.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:workbench.action.tasks.runTask"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "taskDefinitions": [
+      {
+        "type": "lage"
+      }
+    ],
+    "configuration": {
+      "title": "Lage",
+      "properties": {
+        "lage.configFilePath": {
+          "type": [
+            "string"
+          ],
+          "default": "${workspaceFolder}/lage.config.js",
+          "description": "Specifies the path to lage config file"
+        },
+        "lage.useWorkspaceLageBinary": {
+          "type": [
+            "boolean"
+          ],
+          "default": false,
+          "description": "When set to `true` it uses lage binary from the workspace's `node_modules` using configured `npmClient`, Also requires `'lage': 'lage'` in script in the root `package.json` file"
+        },
+        "lage.additionalLageArgs": {
+          "type": [
+            "array"
+          ],
+          "default": [],
+          "description": "Additional arguments passed to `lage` when running targets e.g. `['--verbose', '--reporter adoLog']`"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run package",
+    "compile": "yarn run check-types && yarn run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "yarn run check-types && yarn run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.89.0",
+    "@typescript-eslint/eslint-plugin": "^7.7.1",
+    "@typescript-eslint/parser": "^7.7.1",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.3.9",
+    "esbuild": "^0.20.2",
+    "eslint": "^8.57.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.4.5"
+  },
+  "packageManager": "yarn@3.8.2+sha512.8cf1a37cdbccd13909ba9299dcb8e772292e76155aeeff14fd0a2488f74852c5345e4a2ca81c86a662d727c6d576f6e5b752b4b0958e8433e2c9869a748daaec"
+}
