@@ -45,6 +45,8 @@ export class LageTaskProvider implements vscode.TaskProvider {
   }
 
   private async getLageTasks(): Promise<vscode.Task[]> {
+    // TODO: dynamic imports are cached, so when the config changes we still use the previous config.
+    //  use `https://github.com/pygy/esm-reload` or `fs.read` instead which requires to parse the JS file. 
     const lageConfig = (await import(this.lageConfigFilePath)).default;
     const lageTargetNames = unique(
       Object.keys(lageConfig.pipeline).map((pipelineKey) => {
