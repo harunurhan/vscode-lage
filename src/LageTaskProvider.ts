@@ -6,6 +6,7 @@ export class LageTaskProvider implements vscode.TaskProvider {
   private readonly lageConfigFilePath: string;
   private readonly useWorkspaceLageBinary: boolean;
   private readonly additionalLageArgs: ReadonlyArray<string>;
+  private readonly configFileWatcher: vscode.FileSystemWatcher;
 
   constructor(
     lageConfigFilePath: string,
@@ -18,9 +19,15 @@ export class LageTaskProvider implements vscode.TaskProvider {
     fileWatcher.onDidCreate(() => (this.lageTasksPromise = undefined));
     fileWatcher.onDidDelete(() => (this.lageTasksPromise = undefined));
 
+    this.configFileWatcher = fileWatcher;
+
     this.lageConfigFilePath = lageConfigFilePath;
     this.useWorkspaceLageBinary = useWorkspaceLageBinary;
     this.additionalLageArgs = additionalLageArgs;
+  }
+
+  public dispose(): void {
+    this.configFileWatcher.dispose();
   }
 
   public resolveTask(

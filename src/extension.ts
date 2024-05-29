@@ -25,7 +25,13 @@ export function activate(context: vscode.ExtensionContext) {
     return;
   }
 
-  const lageTaskProvider = vscode.tasks.registerTaskProvider(
+  const lageTaskProvider = new LageTaskProvider(
+    lageConfigFilePath,
+    config.get("useWorkspaceLageBinary") ?? false,
+    config.get("additionalLageArgs") ?? [],
+  )
+
+  const lageTaskProviderRegistration = vscode.tasks.registerTaskProvider(
     "lage",
     new LageTaskProvider(
       lageConfigFilePath,
@@ -34,7 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
-  context.subscriptions.push(lageTaskProvider);
+  context.subscriptions.push(lageTaskProvider, lageTaskProviderRegistration);
 }
 
 export function deactivate() {}
