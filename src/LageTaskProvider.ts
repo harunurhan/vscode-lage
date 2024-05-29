@@ -46,8 +46,6 @@ export class LageTaskProvider implements vscode.TaskProvider {
 
   private async getLageTasks(): Promise<vscode.Task[]> {
     const lageConfig = (await import(this.lageConfigFilePath)).default;
-    console.log(this.lageConfigFilePath);
-    console.log(lageConfig);
     const lageTargetNames = unique(
       Object.keys(lageConfig.pipeline).map((pipelineKey) => {
         const [packageOrTargetName, targetNameOrUndefined] =

@@ -3,8 +3,6 @@ import * as path from "path";
 
 import { LageTaskProvider } from "./LageTaskProvider";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
   const config = vscode.workspace.getConfiguration("lage");
   const workspaceRoot =
@@ -29,15 +27,11 @@ export function activate(context: vscode.ExtensionContext) {
     lageConfigFilePath,
     config.get("useWorkspaceLageBinary") ?? false,
     config.get("additionalLageArgs") ?? [],
-  )
+  );
 
   const lageTaskProviderRegistration = vscode.tasks.registerTaskProvider(
     "lage",
-    new LageTaskProvider(
-      lageConfigFilePath,
-      config.get("useWorkspaceLageBinary") ?? false,
-      config.get("additionalLageArgs") ?? [],
-    )
+    lageTaskProvider,
   );
 
   context.subscriptions.push(lageTaskProvider, lageTaskProviderRegistration);
