@@ -1697,6 +1697,65 @@ __metadata:
   languageName: node
   linkType: hard
 
+"glob-hasher-darwin-arm64@npm:1.4.2":
+  version: 1.4.2
+  resolution: "glob-hasher-darwin-arm64@npm:1.4.2"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"glob-hasher-darwin-x64@npm:1.4.2":
+  version: 1.4.2
+  resolution: "glob-hasher-darwin-x64@npm:1.4.2"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"glob-hasher-linux-x64-gnu@npm:1.4.2":
+  version: 1.4.2
+  resolution: "glob-hasher-linux-x64-gnu@npm:1.4.2"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"glob-hasher-win32-arm64-msvc@npm:1.4.2":
+  version: 1.4.2
+  resolution: "glob-hasher-win32-arm64-msvc@npm:1.4.2"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"glob-hasher-win32-x64-msvc@npm:1.4.2":
+  version: 1.4.2
+  resolution: "glob-hasher-win32-x64-msvc@npm:1.4.2"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"glob-hasher@npm:^1.4.2":
+  version: 1.4.2
+  resolution: "glob-hasher@npm:1.4.2"
+  dependencies:
+    glob-hasher-darwin-arm64: 1.4.2
+    glob-hasher-darwin-x64: 1.4.2
+    glob-hasher-linux-x64-gnu: 1.4.2
+    glob-hasher-win32-arm64-msvc: 1.4.2
+    glob-hasher-win32-x64-msvc: 1.4.2
+  dependenciesMeta:
+    glob-hasher-darwin-arm64:
+      optional: true
+    glob-hasher-darwin-x64:
+      optional: true
+    glob-hasher-linux-x64-gnu:
+      optional: true
+    glob-hasher-win32-arm64-msvc:
+      optional: true
+    glob-hasher-win32-x64-msvc:
+      optional: true
+  checksum: b6daf7d7b6bca23de4d3598a60fdfd6e4d4c9097123c663f7e665dc7ebed3d270034e957bbcf4a7c04108d0c9d202680e3a635663ef603c06e8176f3f5a41a83
+  languageName: node
+  linkType: hard
+
 "glob-parent@npm:^5.1.2, glob-parent@npm:~5.1.2":
   version: 5.1.2
   resolution: "glob-parent@npm:5.1.2"
@@ -2372,6 +2431,21 @@ __metadata:
   dependencies:
     json-buffer: 3.0.1
   checksum: 74a24395b1c34bd44ad5cb2b49140d087553e170625240b86755a6604cd65aa16efdbdeae5cdb17ba1284a0fbb25ad06263755dbc71b8d8b06f74232ce3cdd72
+  languageName: node
+  linkType: hard
+
+"lage@npm:^2.7.16":
+  version: 2.7.16
+  resolution: "lage@npm:2.7.16"
+  dependencies:
+    fsevents: ~2.3.2
+    glob-hasher: ^1.4.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    lage: dist/lage.js
+  checksum: 1816bdb703d5c61f225b39d82284fe0a6af63f9a491a7b0ab9a4ee4c891d9445d565fc53434116bcda029a44326bdf55b1d761e5558c329e9c8f9b5f4260652e
   languageName: node
   linkType: hard
 
@@ -3762,6 +3836,7 @@ __metadata:
     "@vscode/test-electron": ^2.3.9
     esbuild: ^0.20.2
     eslint: ^8.57.0
+    lage: ^2.7.16
     npm-run-all: ^4.1.5
     typescript: ^5.4.5
   languageName: unknown
