@@ -2,6 +2,17 @@ import * as vscode from "vscode";
 import { unique } from "./utils";
 import { readLageConfigFile } from "./Lage";
 
+interface LageTaskDefinition extends vscode.TaskDefinition {
+  type: "lage";
+  npmClient: string;
+}
+
+function isLageTaskDefinition(
+  taskDefinition: vscode.TaskDefinition
+): taskDefinition is LageTaskDefinition {
+  return taskDefinition.type === "lage";
+}
+
 export class LageTaskProvider implements vscode.TaskProvider {
   private lageTasksPromise: Promise<vscode.Task[]> | undefined;
   private readonly lageConfigFilePath: string;
@@ -35,6 +46,17 @@ export class LageTaskProvider implements vscode.TaskProvider {
     task: vscode.Task,
     token: vscode.CancellationToken
   ): vscode.ProviderResult<vscode.Task> {
+    if (isLageTaskDefinition(task.definition)) {
+      return new vscode.Task(
+        task.definition,
+        task.scope ?? vscode.TaskScope.Workspace,
+        task.name,
+        "lage",
+        this.getLageTaskExecution(task.name, task.definition.npmClient)
+      );
+    }
+
+    console.log("task definition", task);
     return undefined;
   }
 
@@ -56,27 +78,37 @@ export class LageTaskProvider implements vscode.TaskProvider {
       })
     );
 
-    // TODO: better inference for `npmClient`, e.g. look for files such as `yarn.lock` to determine.
-    const npmClient = lageConfig.npmClient || "npm";
-    // TODO: infer binary path instead of using `lage` package.json script, e.g. by using `yarn bin lage`.
-    const lageTargetRunner = this.useWorkspaceLageBinary
-      ? `${npmClient} run lage`
-      : `lage`;
-    const additionalLageArgsString = this.additionalLageArgs.join(" ");
+    const npmClient = lageConfig.npmClient;
 
     return lageTargetNames.map(
       (targetName) =>
         new vscode.Task(
           {
             type: "lage",
+            npmClient,
           },
           vscode.TaskScope.Workspace,
           targetName,
           "lage",
-          new vscode.ShellExecution(
-            `${lageTargetRunner} ${additionalLageArgsString} ${targetName}`
-          )
+          this.getLageTaskExecution(targetName, npmClient)
         )
+    );
+  }
+
+  private getLageTaskExecution(
+    targetName: string,
+    configuredNpmClient: string
+  ): vscode.ShellExecution {
+    // TODO: better inference for fallback `npmClient`, e.g. look for files such as `yarn.lock` to determine.
+    const npmClient = configuredNpmClient || "npm";
+    // TODO: infer binary path instead of using `lage` package.json script, e.g. by using `yarn bin lage`.
+    const lageTargetRunner = this.useWorkspaceLageBinary
+      ? `${npmClient} run lage`
+      : `lage`;
+    const additionalLageArgsString = this.additionalLageArgs.join(" ");
+
+    return new vscode.ShellExecution(
+      `${lageTargetRunner} ${additionalLageArgsString} ${targetName}`
     );
   }
 }
