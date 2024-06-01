@@ -13,3 +13,7 @@
 ## [0.1.2]
 
 - Fixed invoking a recently invoked task without navigating to "lage" task directory.
+
+## [0.1.3]
+
+- More fixes for invoking a recently invoked task without navigating to "lage" task directory.
