@@ -5,6 +5,7 @@ import { readLageConfigFile } from "./Lage";
 interface LageTaskDefinition extends vscode.TaskDefinition {
   type: "lage";
   npmClient: string;
+  targetName: string;
 }
 
 function isLageTaskDefinition(
@@ -50,13 +51,12 @@ export class LageTaskProvider implements vscode.TaskProvider {
       return new vscode.Task(
         task.definition,
         task.scope ?? vscode.TaskScope.Workspace,
-        task.name,
+        task.definition.targetName,
         "lage",
-        this.getLageTaskExecution(task.name, task.definition.npmClient)
+        this.getLageTaskExecution(task.definition.targetName, task.definition.npmClient)
       );
     }
 
-    console.log("task definition", task);
     return undefined;
   }
 
@@ -86,6 +86,7 @@ export class LageTaskProvider implements vscode.TaskProvider {
           {
             type: "lage",
             npmClient,
+            targetName,
           },
           vscode.TaskScope.Workspace,
           targetName,

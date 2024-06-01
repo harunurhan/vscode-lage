@@ -18,7 +18,21 @@
   "contributes": {
     "taskDefinitions": [
       {
-        "type": "lage"
+        "type": "lage",
+        "required": [
+					"targetName",
+          "npmClient"
+				],
+				"properties": {
+					"targetName": {
+						"type": "string",
+						"description": "Lage target/task name"
+					},
+					"npmClient": {
+						"type": "string",
+						"description": "Name of the npm client such as `npm`, or `yarn`"
+					}
+				}
       }
     ],
     "configuration": {
