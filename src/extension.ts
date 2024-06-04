@@ -4,7 +4,7 @@ import * as path from "path";
 import { LageTaskProvider } from "./LageTaskProvider";
 
 export function activate(context: vscode.ExtensionContext) {
-  const config = vscode.workspace.getConfiguration("lage");
+  const config = vscode.workspace.getConfiguration();
   const workspaceRoot =
     vscode.workspace.workspaceFolders &&
     vscode.workspace.workspaceFolders.length > 0
@@ -25,8 +25,8 @@ export function activate(context: vscode.ExtensionContext) {
 
   const lageTaskProvider = new LageTaskProvider(
     lageConfigFilePath,
-    config.get("useWorkspaceLageBinary") ?? false,
-    config.get("additionalLageArgs") ?? [],
+    config.get("lage.useWorkspaceLageBinary") ?? false,
+    config.get("lage.additionalLageArgs") ?? [],
   );
 
   const lageTaskProviderRegistration = vscode.tasks.registerTaskProvider(
