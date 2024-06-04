@@ -17,3 +17,7 @@
 ## [0.1.3]
 
 - More fixes for invoking a recently invoked task without navigating to "lage" task directory.
+
+## [0.1.4]
+
+- Fix ignored configuration issue when it is set in `.code-workspace` file.

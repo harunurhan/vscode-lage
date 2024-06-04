@@ -4,7 +4,7 @@
   "publisher": "harunurhan",
   "description": "A vscode extension that understands lage configs and provide utilities such as vscode tasks.",
   "repository": "https://github.com/harunurhan/vscode-lage",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "engines": {
     "vscode": "^1.89.0"
   },
